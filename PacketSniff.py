@@ -4,9 +4,9 @@ from collections import OrderedDict
 
 class PacketSniffer(object):
     def __init__(self, interface = 'wlan0', hold = 1, tm = 200, amount = 1):
+        self.packet_list = sniff(iface = interface,  store = hold, timeout = tm, count = amount, prn = lambda packet: self.packetToDict(packet))
 
-        self.packet_list = sniff(iface = interface,  store = hold, timeout = tm, count = amount, prn = lambda x : self.parseToLayers(x))
-    def parseToLayers(self,data):
+    def packetToDict(self,data):
         packet = OrderedDict()
         while data:
             if type(data) is NoPayload:
