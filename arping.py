@@ -9,7 +9,7 @@ class Devices(object):
 		self.scan()
 
 	def scan(self):
-		for ip in ["10.99."+str(x%16)+"."+str(x) for x in range(1,255)]:
+		for ip in target_list:
 			print("tried-"+ip)
 			ans, _ = srp(Ether(dst="ff:ff:ff:ff:ff:ff")/ARP(pdst = ip), timeout = 0.05)
 			for snd, rcv in ans:
