@@ -9,15 +9,18 @@ from sniff import PacketSniffer
 class MonitoringHandler(object):
     def __init__(self):
         self.builder = Gtk.Builder()
-        self.builder.add_from_file("main_window.glade")
+        self.builder.add_from_file("main_window.glade") 
         self.builder.connect_signals(self)
+
         self.ps = PacketSniffer(interface="wlan0")
 
         self.content_table = self.builder.get_object("content_table")
+
         columns = ["No", "Time", "Source IP", "Source MAC", "Source Port", "Destination IP", "Destination MAC",
                    "Destination Port", "Summary"]
         for no, column in enumerate(columns):
             self.content_table.append_column(Gtk.TreeViewColumn(column, Gtk.CellRendererText(), text=no))
+
 
         protocols = ["All", "ARP", "IP", "TCP", "UDP", "HTTP", "DNS"]
         self.protocols = self.builder.get_object("protocols_box")
@@ -25,7 +28,7 @@ class MonitoringHandler(object):
         self.protocols.connect("changed", self.reFilter)
         for protocol in protocols:
             self.protocols.append_text(protocol)
-
+        
         self.liststore = Gtk.ListStore(str, str, str, str, str, str, str, str, str)
         self.filter = self.liststore.filter_new()
         self.filter.set_visible_func(self.onSearch)
@@ -40,13 +43,13 @@ class MonitoringHandler(object):
         window.show()
 
     def reFilter(self, entry):
-        print(self.filter_field.get_text())
-        print(entry.get_text())
         self.filter.refilter()
 
-    def onSearch(self, model, iterv, data):
-        value = self.liststore.get_value(iterv, 0)
-        return True if value.startswith(self.filter_field.get_text()) else False
+    def onSearch(self, model, treeiter, data= None):
+        for column in range(self.content_table.get_n_columns()+1):
+                value = self.liststore.get_value(treeiter, column).lower()
+                if self.filter_field.get_text() in value :
+                    return True
 
     def onContentSelected(self, treeview, treeiter, path):
         print(self.liststore[treeiter][:])
@@ -60,7 +63,7 @@ class MonitoringHandler(object):
     def onSwitch(self, switch, _):
         if switch.get_active():
             self.ps.cookie = True
-            Thread(target=self.append, daemon=True).start()
+            Thread(target=self.append, daemon=True).start() 
         else:
             self.ps.cookie = False
 
