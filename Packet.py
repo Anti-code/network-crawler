@@ -1,4 +1,5 @@
 class DefaultPacket(object):
+
     def __init__(self):
         self.no = 0
         self.time = ""
@@ -10,10 +11,11 @@ class DefaultPacket(object):
         self.destination_port = ""
         self.summary = ""
         self.whole = ""
-
+    # paket str metoduyla kullanıldığında paket numarasını döndürür  p = DefaultPacket, str(p) -> p.no
     def __str__(self):
         return str(self.no)
 
+    # tabloda göstermek istediğimiz özellikleri bir liste haline getirdik
     def toList(self):
         return [str(self.no),
                 str(self.time),

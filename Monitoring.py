@@ -5,6 +5,7 @@ from threading import Thread
 from gi.repository import Gtk
 from multiprocessing import Process
 from sniff import PacketSniffer
+from collections import OrderedDict
 
 class MonitoringHandler(object):
     def __init__(self):
@@ -21,13 +22,14 @@ class MonitoringHandler(object):
         for no, column in enumerate(columns):
             self.content_table.append_column(Gtk.TreeViewColumn(column, Gtk.CellRendererText(), text=no))
 
-
-        protocols = ["All", "ARP", "IP", "TCP", "UDP", "HTTP", "DNS"]
+        self.packet_list = []
+        """protocols = ["All", "ARP", "IP", "TCP", "UDP", "HTTP", "DNS"]
         self.protocols = self.builder.get_object("protocols_box")
         self.protocols.set_entry_text_column(0)
         self.protocols.connect("changed", self.reFilter)
         for protocol in protocols:
             self.protocols.append_text(protocol)
+        self.protocols.set_active(0)"""
         
         self.liststore = Gtk.ListStore(str, str, str, str, str, str, str, str, str)
         self.filter = self.liststore.filter_new()
@@ -37,10 +39,11 @@ class MonitoringHandler(object):
         self.filter_field = self.builder.get_object("filter_field")
         self.filter_field.connect("changed", self.reFilter)
 
-        window = self.builder.get_object("window")
-        window.set_size_request(800, 500)
-        window.connect("delete-event", Gtk.main_quit)
-        window.show()
+        self.window = self.builder.get_object("window")
+        self.window.set_size_request(800, 500)
+        self.window.connect("delete-event", Gtk.main_quit)
+
+        self.window.show()
 
     def reFilter(self, entry):
         self.filter.refilter()
@@ -52,11 +55,16 @@ class MonitoringHandler(object):
                     return True
 
     def onContentSelected(self, treeview, treeiter, path):
-        print(self.liststore[treeiter][:])
+        #self.liststore[treeiter][:]
+        dialog = Gtk.MessageDialog(self.window, 0, Gtk.MessageType.INFO,Gtk.ButtonsType.OK)
+        dialog.format_secondary_text(self.packet_list[int(self.liststore[treeiter][0])])
+        dialog.run()
+        dialog.destroy()
 
     def append(self):
         while self.ps.cookie:
             packet = self.ps.run()
+            self.packet_list.append(packet.whole)
             self.liststore.insert(0, packet.toList())
             self.content_table.set_cursor(0)
 
