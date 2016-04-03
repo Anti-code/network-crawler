@@ -34,8 +34,8 @@ class PacketSniffer(object):
 
     def run(self):
         if self.cookie:  # 2
-            p = self.fetch(sniff(filter="Ether", iface=self.interface, store=1, count=1)[-1])
-            return p
+            return self.fetch(sniff(filter="Ether", iface=self.interface, store=1, count=1)[-1])
+             
 
 
 if __name__ == "__main__":
