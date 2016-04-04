@@ -4,8 +4,7 @@
 > - root privilege
 > - python3+
 > - scapy
-> - gtk3.0+ 
+> - gtk3+ 
 ``` 
-sudo apt-get install libgtk-3-dev
 pip3 install scapy-python3
 ```
