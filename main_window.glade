@@ -44,7 +44,7 @@
                 <property name="hover_selection">True</property>
                 <property name="hover_expand">True</property>
                 <property name="rubber_banding">True</property>
-                <property name="enable_grid_lines">vertical</property>
+                <property name="enable_grid_lines">horizontal</property>
                 <signal name="row-activated" handler="onContentSelected" swapped="no"/>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection" id="treeview-selection1"/>
@@ -109,6 +109,7 @@
                 <property name="margin_left">5</property>
                 <property name="margin_right">5</property>
                 <property name="hexpand">True</property>
+                <signal name="toggled" handler="onDevicesToggled" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
