@@ -4,6 +4,7 @@
 > - root privilege
 > - python3+
 > - scapy
+> - pandas
 > - gtk+3 
 ``` 
 pip3 install scapy-python3
