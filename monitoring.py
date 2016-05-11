@@ -1,14 +1,9 @@
 import gi
 gi.require_version("Gtk", "3.0")
 from threading import Thread
-from gi.repository import Gio
-
-from gi.repository import Gtk
-from multiprocessing import Process
+from gi.repository import Gio, Gtk
 from sniff import PacketSniffer
 from arping import Devices
-import subprocess, re, csv
-from collections import OrderedDict
 from scapy.all import *
 class MonitoringHandler(object):
     # Programın başlangıcında tanımlanmak istenen değişkenler ve çalıştırılmak istenen fonksiyonlar __init__ içinde tanımlanır.
