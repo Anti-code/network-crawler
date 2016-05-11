@@ -2,9 +2,12 @@ from scapy.all import *
 from collections import OrderedDict
 from threading import Thread, Event
 import time
-from Packet import DefaultPacket
+from packet import DefaultPacket
 import io
 from contextlib import redirect_stdout
+
+# ağdaki diğer cihazlarıda izleyebilmek için promiscous modunu True yaptık
+conf.promisc = True
 
 class PacketSniffer(object):
     # programın genelinde kullanacağımız verileri tanımladık.
