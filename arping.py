@@ -13,7 +13,7 @@ class Devices(object):
 		proc2 = subprocess.Popen(['grep', 'proto kernel  scope link'],stdin=proc1.stdout,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 		proc1.stdout.close()
 		out, _ = proc2.communicate()
-		# ağ bilgisini içeren satırdan regex kullanarak ağı çek
+		# ağ bilgisini içeren satırdan regex kullanarak ip ve subnet maskı çek
 		self.ips = re.findall(r'[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.0\/[0-9]{1,2}', out.decode('utf-8'))
 		# mac adreslerinin ait oldugu firmaların listesi
 		self.df = pandas.DataFrame.from_csv(open('oui.csv'))	
